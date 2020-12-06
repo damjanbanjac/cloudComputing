@@ -1,6 +1,6 @@
-package controller;
+package com.example.cloudComputing.controller;
 
-import Service.ServiceExample;
+import com.example.cloudComputing.Service.ServiceExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
