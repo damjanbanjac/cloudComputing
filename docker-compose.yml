@@ -2,25 +2,33 @@ version: '3.3'
 services: 
 
 
-  postgres:
-    image: postgres:11-alpine
-    ports:
-      - 5432:5432
-    environment: 
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_USER=postgres
-      - POSTGRES_DB=cloud
-    volumes:
-      - database:/var/lib/postgresql/
-
   cloud:
     build: ./cloudComputing
     ports:
       - "8081:8081"
+    environment: 
+     - DATABASE_DOMAIN=postgres
+     - USERNAME_POSTGRES=postgres
+     - PASSWORD_POSTGRES=root
+    volumes:
+     - database:/var/lib/postgresql/data
     links:
      - postgres
 
-  
+  postgres:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    container_name: postgres
+    restart: always
+    environment: 
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=cloud
+   
+   
+
+
 
 volumes:
   database:
