@@ -13,8 +13,13 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = "hashicorp/bionic64"
+  config.vm.network "forwarded_port", guest: 8081, host: 8081
+  config.vm.provision "file", source: "cloudComputing", destination: "cloudComputing"
+  config.vm.provision "file", source: "docker-compose.yml", destination: "docker-compose.yml"
   config.vm.provision :shell, path: "script.sh"
-  
+  #config.vm.provision :docker
+ # config.vm.provision :docker_compose, yml: "/vagrant/docker-compose.yml", rebuild: true, run: "always"
+
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -45,7 +50,7 @@ Vagrant.configure("2") do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
+  # config.vm.synced_folder "../cloudComputing", "/vagrant_data"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
