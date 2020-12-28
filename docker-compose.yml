@@ -13,6 +13,18 @@ services:
      - PASSWORD_POSTGRES=root
     links:
      - postgres
+   
+  cloud1:
+    build: ./cloudComputing
+    ports:
+      - "8082:8081"
+    container_name: cloud1
+    environment: 
+     - DATABASE_DOMAIN=postgres
+     - USERNAME_POSTGRES=postgres
+     - PASSWORD_POSTGRES=root
+    links:
+     - postgres
 
   postgres:
     image: postgres:11-alpine
@@ -34,6 +46,16 @@ services:
       - 80:80
     links:
      - cloud
+     
+  nginx2:
+    build: ./nginx/loadBalancer
+    container_name: nginx1
+    ports:
+      - 81:80
+    links:
+      - cloud
+      - cloud1
+
 
  
 
