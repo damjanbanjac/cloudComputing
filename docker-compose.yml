@@ -6,12 +6,23 @@ services:
     build: ./cloudComputing
     ports:
       - "8081:8081"
+    container_name: cloud
     environment: 
      - DATABASE_DOMAIN=postgres
      - USERNAME_POSTGRES=postgres
      - PASSWORD_POSTGRES=root
-    volumes:
-     - database:/var/lib/postgresql/data
+    links:
+     - postgres
+   
+  cloud1:
+    build: ./cloudComputing
+    ports:
+      - "8082:8081"
+    container_name: cloud1
+    environment: 
+     - DATABASE_DOMAIN=postgres
+     - USERNAME_POSTGRES=postgres
+     - PASSWORD_POSTGRES=root
     links:
      - postgres
 
@@ -25,9 +36,28 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_USER=postgres
       - POSTGRES_DB=cloud
-   
-   
+    volumes:
+      - database:/var/lib/postgresql/data
 
+  nginx: 
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    links:
+     - cloud
+     
+  nginx2:
+    build: ./nginx/loadBalancer
+    container_name: nginx1
+    ports:
+      - 81:80
+    links:
+      - cloud
+      - cloud1
+
+
+ 
 
 
 volumes:
