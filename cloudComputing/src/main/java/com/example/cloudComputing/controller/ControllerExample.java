@@ -17,9 +17,9 @@ public class ControllerExample {
 
     @GetMapping(path = "", produces = "application/json")
     public ResponseEntity getUser() {
-
+        String env = System.getenv("HOST_APP");
         int counter = serviceExample.incrementCounter();
-        return new ResponseEntity<>(counter, HttpStatus.OK);
+        return new ResponseEntity<>(counter + "\n\n" + env, HttpStatus.OK);
 
     }
 }
